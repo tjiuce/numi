@@ -1,0 +1,387 @@
+@font-face {
+  font-family: 'IoskeleyMono';
+  src: url('/fonts/IoskeleyMono/Normal/Hinted/IoskeleyMono-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/Cormorant_Garamond/CormorantGaramond-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 700;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Webkit */
+}
+
+html, body {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden; /* Prevent webpage scroll */
+}
+
+/* Override default blue selections */
+::selection {
+  background: #ffffff;
+  color: #000000;
+}
+::-moz-selection {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* Override input autofill blue/yellow backgrounds */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #111111 inset !important;
+  -webkit-text-fill-color: #eeeeee !important;
+}
+
+body {
+  font-family: 'Cormorant Garamond', serif;
+  background-color: #000000;
+  color: #cccccc;
+  line-height: 1.5;
+  font-size: 20px;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+input, button {
+  font-family: 'Cormorant Garamond', serif;
+  border: 1px solid #444444;
+  background: #111111;
+  color: #eeeeee;
+  padding: 6px 8px;
+  border-radius: 0;
+  accent-color: #333333;
+}
+
+input:focus {
+  outline: 2px solid #666666;
+  outline-offset: -1px;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+  background: #333333;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #444444;
+  color: #ffffff;
+}
+
+button:disabled {
+  border: 1px dotted #333333;
+  color: #666666;
+  cursor: not-allowed;
+  background: #111111;
+}
+
+/* Premium Try Now Button */
+.try-now-btn {
+  padding: 8px 24px;
+  font-size: 20px;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.try-now-btn:hover {
+  background: #000000;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Global Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #0a0a0a;
+  border-bottom: 1px solid #222222;
+}
+
+.app-header h1 {
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
+}
+
+.header-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.icon-btn {
+  background: transparent;
+  color: #999999;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  color: #ffffff;
+  background: transparent;
+}
+
+.mobile-only-icon {
+  display: none;
+}
+
+.mobile-panel-header {
+  display: none;
+}
+
+.desktop-only-heading {
+  display: block;
+}
+
+.mobile-only-panels {
+  display: none;
+}
+
+/* Main Layout */
+.container {
+  padding: 10px;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.instructions-text {
+  color: #999999;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+/* 3 Column Grid for App View */
+.three-column-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr 320px;
+  gap: 15px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scrollable-col {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar previously here removed */
+
+.flex-col-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.flex-grow-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+@media (max-width: 1000px) {
+  .three-column-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .mobile-only-icon {
+    display: flex;
+  }
+  
+  .desktop-only-heading {
+    display: none !important;
+  }
+  
+  .mobile-only-panels {
+    display: block;
+  }
+  
+  .mobile-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333333;
+    padding-bottom: 5px;
+  }
+
+  .mobile-panel-header h2 {
+    color: #fff;
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .logs-section, .instructions-section {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000000;
+    z-index: 200;
+    transition: transform 0.3s ease;
+    padding: 15px;
+    overflow-y: auto;
+    transform: translateX(100%);
+  }
+
+  .logs-section.open, .instructions-section.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-title {
+    font-size: 32px !important;
+  }
+  .landing-desc {
+    font-size: 16px !important;
+  }
+  .stats-container {
+    gap: 15px !important;
+  }
+  .console {
+    font-size: 10px !important;
+  }
+}
+
+/* Form Styles */
+.fieldset {
+  border: 1px solid #333333;
+  padding: 8px;
+  border-radius: 0;
+  background: #0a0a0a;
+  margin-bottom: 10px;
+}
+
+.legend {
+  font-weight: bold;
+  color: #f5f5f5;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #333333;
+  padding-bottom: 4px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.field label {
+  font-size: 14px;
+  color: #999999;
+  margin-bottom: 2px;
+}
+
+.logs-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Console */
+.console-container {
+  border: 1px solid #333333;
+  background: #050505;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.console-header {
+  border-bottom: 1px solid #333333;
+  padding: 8px 10px;
+  color: #f5f5f5;
+  font-size: 18px;
+  margin: 0;
+  background: #0a0a0a;
+}
+
+.console {
+  padding: 8px 10px;
+  color: #999999;
+  font-size: 14px;
+  font-family: 'IoskeleyMono', monospace;
+  white-space: pre-wrap;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.console-success { color: #cccccc; }
+.console-error { color: #999999; }
+
+/* Instructions Column */
+.instructions-panel {
+  background: #0a0a0a;
+  border: 1px solid #333333;
+  padding: 10px;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.instructions-panel h2 {
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.instructions-panel p {
+  color: #999999;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.screenshot-placeholder {
+  width: 100%;
+  height: 100px;
+  background: #000;
+  border: 1px dashed #444444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0;
+  color: #666666;
+  font-size: 14px;
+  text-align: center;
+}

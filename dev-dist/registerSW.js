@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/numi/dev-sw.js?dev-sw', { scope: '/numi/', type: 'classic' })
