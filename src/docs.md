@@ -41,6 +41,14 @@ We present you with the exact number of items ready to be copied.
 ### 4. Execution
 The copy loop begins. If you are on the Free tier, we add an artificial 500ms delay between items to avoid hammering the Numista servers. If Paid is selected, we run in Fast Mode (50ms delay).
 
+## Job Management & Error Handling
+
+**numi** is designed to handle network instability and strict API limits gracefully:
+
+- **Pausing & Resuming**: You can pause a transfer at any time by clicking the "Pause / Stop" button. Your progress is securely saved to your browser's local storage. The next time you open **numi**, it will detect the unfinished job and allow you to instantly resume right where you left off.
+- **Dry-Run Mode**: Test the entire extraction and deduplication process without writing any data to the Target account. This is highly recommended before performing your first large transfer.
+- **Failures Export**: If an item fails to copy due to a severe network error or API timeout, the app will log the failure. At the end of the job, you will be presented with a "Download Failures (JSON)" button. You can download this file to inspect exactly which items were missed so you can add them manually.
+
 ## Limitations & Edge Cases
 
 | Feature / Field | Supported? | Notes |

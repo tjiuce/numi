@@ -36,7 +36,10 @@ sequenceDiagram
 ## Features
 
 - **Client-Side Execution**: Your Numista API keys and credentials never leave your browser. All API requests are made directly from your machine to Numista's servers.
-- **Live Console Logs**: Watch the copy process happen in real-time with an integrated console interface.
+- **Live Console Logs**: Watch the copy process happen in real-time with an integrated, color-coded console interface.
+- **Pause & Resume**: Stop a large transfer mid-way and resume it perfectly later. Your state is saved locally in your browser.
+- **Dry-Run Mode**: Safely test the extraction and deduplication engine without actually modifying your target collection.
+- **Failure Exporting**: Instantly download a JSON report of any items that failed to copy due to API timeouts or network drops.
 
 ## Limitations and Edge Cases
 
@@ -68,11 +71,3 @@ sequenceDiagram
    ```bash
    npm run dev
    ```
-5. To build for production:
-   ```bash
-   npm run build
-   ```
-
-## Contributing to Documentation
-
-The in-app documentation is powered by Markdown. To update the docs, simply edit the `src/docs.md` file. The application will automatically parse the Markdown, generate the sidebar navigation, and inject hover-links for all headings!
