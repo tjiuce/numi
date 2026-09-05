@@ -68,3 +68,11 @@ sequenceDiagram
    ```bash
    npm run dev
    ```
+5. To build for production:
+   ```bash
+   npm run build
+   ```
+
+## Contributing to Documentation
+
+The in-app documentation is powered by Markdown. To update the docs, simply edit the `src/docs.md` file. The application will automatically parse the Markdown, generate the sidebar navigation, and inject hover-links for all headings!
