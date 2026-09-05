@@ -40,13 +40,13 @@ sequenceDiagram
 
 ## Limitations and Edge Cases
 
-| Scenario / Feature | Limit / Behavior | Description |
-| :--- | :--- | :--- |
-| **Maximum Collection Size** | 100 pages | The app has a hard cap of fetching 100 pages of items from the source account to prevent browser freezing. Extremely large collections may need to be copied in batches. |
-| **Authentication** | OAuth 2.0 | Requires Client ID and API Secret for both source and destination accounts. |
-| **Supported Item Data** | Basic fields only | Copies item type, issue, quantity, swap status, grade, and private comments. Other specialized fields or images may not be transferred. |
-| **Rate Limiting** | API Dependent | The copy speed depends on the Numista API rate limits. Large collections might take time to fully copy. |
-| **Duplicate Items** | Potential Duplication | If run multiple times, it may add the same items again if the Numista API allows identical items to be added. |
+| Scenario / Feature          | Limit / Behavior      | Description                                                                                                                                                              |
+| :----------------------------| :----------------------| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Maximum Collection Size** | 100 pages             | The app has a hard cap of fetching 100 pages of items from the source account to prevent browser freezing. Extremely large collections may need to be copied in batches. |
+| **Authentication**          | OAuth 2.0             | Requires Client ID and API Secret for both source and destination accounts.                                                                                              |
+| **Supported Item Data**     | Basic fields only     | Copies item type, issue, quantity, swap status, grade, and private comments. Other specialized fields or images may not be transferred.                                  |
+| **Rate Limiting**           | API Dependent         | The copy speed depends on the Numista API rate limits. Large collections might take time to fully copy.                                                                  |
+| **Duplicate Items**         | Potential Duplication | If run multiple times, it may add the same items again if the Numista API allows identical items to be added.                                                            |
 
 ## Tech Stack
 

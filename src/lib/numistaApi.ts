@@ -7,6 +7,13 @@ export class NumistaAPIError extends Error {
   }
 }
 
+export class NumistaRateLimitError extends Error {
+  constructor(message: string = "Rate limit exceeded (429).") {
+    super(message);
+    this.name = "NumistaRateLimitError";
+  }
+}
+
 export async function authenticate(apiKey: string, clientId: string): Promise<string> {
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
@@ -32,6 +39,22 @@ export async function authenticate(apiKey: string, clientId: string): Promise<st
     throw new NumistaAPIError("No access_token in response.");
   }
   return data.access_token;
+}
+
+export async function validateUserAccess(apiKey: string, token: string, userId: string): Promise<boolean> {
+  const response = await fetch(`${API_BASE}/users/${userId}`, {
+    method: "GET",
+    headers: {
+      "Numista-API-Key": apiKey,
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new NumistaAPIError(`User validation failed for ID ${userId}: ${errText}`);
+  }
+  return true;
 }
 
 export async function fetchCollection(apiKey: string, token: string, userId: string): Promise<any[]> {
@@ -113,5 +136,14 @@ export async function addItem(apiKey: string, token: string, userId: string, ite
     body: JSON.stringify(payload),
   });
 
-  return response.ok;
+  if (response.status === 429) {
+    throw new NumistaRateLimitError();
+  }
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new NumistaAPIError(`Failed to add item: ${errText}`);
+  }
+
+  return true;
 }
