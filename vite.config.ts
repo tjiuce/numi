@@ -15,8 +15,8 @@ export default defineConfig({
       },
       includeAssets: ['icon-192x192.png', 'icon-512x512.png', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Numi Collection Copier',
-        short_name: 'Numi',
+        name: 'numi Collection Copier',
+        short_name: 'numi',
         description: 'Safely and instantly copy your entire Numista collection from one account to another.',
         theme_color: '#0a0a0a',
         background_color: '#0a0a0a',

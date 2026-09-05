@@ -251,7 +251,7 @@ export default function Main() {
       </div>
 
       <div style={{ marginTop: '20px', fontSize: '13px', color: '#666666', borderTop: '1px solid #333333', paddingTop: '15px' }}>
-        <strong>Disclaimer:</strong> Numi is an independent, open-source tool. It is not affiliated with, endorsed by, or sponsored by Numista.
+        <strong>Disclaimer:</strong> numi is an independent, open-source tool. It is not affiliated with, endorsed by, or sponsored by Numista.
       </div>
     </div>
   );
@@ -294,7 +294,7 @@ export default function Main() {
           <div style={{ marginTop: '20px' }}>
             <h2 className="landing-title" style={{ fontSize: '48px', color: '#fff', marginBottom: '10px' }}>Safely and instantly copy<br />your entire collection.</h2>
             <p className="landing-desc instructions-text" style={{ fontSize: '20px', maxWidth: '600px', marginBottom: '40px' }}>
-              Moving your Numista collection from a personal account to another? Consolidating? Numi automates the process securely without missing a single coin or banknote.
+              Moving your Numista collection from a personal account to another? Consolidating? numi automates the process securely without missing a single coin or banknote.
             </p>
 
             <div className="stats-container" style={{ display: 'flex', gap: '40px', marginBottom: '40px', color: '#eeeeee' }}>

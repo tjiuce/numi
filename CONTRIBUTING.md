@@ -1,4 +1,4 @@
-# Contributing to Numi
+# Contributing to numi
 
 Thanks for your interest in contributing! This project helps Numista collectors migrate their collections between accounts securely.
 
