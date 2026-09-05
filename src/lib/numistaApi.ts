@@ -97,8 +97,9 @@ export async function fetchCollection(apiKey: string, token: string, userId: str
       allItems = allItems.concat(items);
       page++;
       
-      // Hard cap at 100 pages to prevent browser freezing
-      if (page > 100) {
+      // Circuit breaker at 1000 pages to prevent infinite browser freezing
+      if (page > 1000) {
+        console.warn("Numi: Hard cap of 1000 pages reached.");
         hasMore = false;
       }
     }

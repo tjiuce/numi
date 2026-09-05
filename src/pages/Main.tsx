@@ -109,7 +109,8 @@ export default function Main() {
         const issueId = t.issue?.id || 'no-issue';
         const grade = typeof t.grade === 'object' ? t.grade?.code : (t.grade || 'no-grade');
         const key = `${issueId}-${grade}`;
-        targetCounts[key] = (targetCounts[key] || 0) + 1;
+        const qty = t.quantity || 1;
+        targetCounts[key] = (targetCounts[key] || 0) + qty;
       }
 
       const itemsToCopy = [];
@@ -118,15 +119,26 @@ export default function Main() {
         const issueId = s.issue?.id || 'no-issue';
         const grade = typeof s.grade === 'object' ? s.grade?.code : (s.grade || 'no-grade');
         const key = `${issueId}-${grade}`;
+        const sQty = s.quantity || 1;
         
+        let qtyToCopy = sQty;
         if (targetCounts[key] > 0) {
-          targetCounts[key]--;
-          skippedCount++;
-        } else {
+          if (targetCounts[key] >= sQty) {
+            targetCounts[key] -= sQty;
+            skippedCount += sQty;
+            qtyToCopy = 0;
+          } else {
+            skippedCount += targetCounts[key];
+            qtyToCopy = sQty - targetCounts[key];
+            targetCounts[key] = 0;
+          }
+        }
+        
+        if (qtyToCopy > 0) {
           itemsToCopy.push({
             type: s.type,
             issue: s.issue,
-            quantity: s.quantity,
+            quantity: qtyToCopy,
             for_swap: s.for_swap,
             grade: s.grade,
             private_comment: s.private_comment
@@ -145,6 +157,29 @@ export default function Main() {
       
     } catch (err: any) {
       addLog(`[Critical Error]: ${err.message}`);
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
+  const testCredentials = async () => {
+    if (!source.apiKey || !target.apiKey) return;
+    
+    setIsRunning(true);
+    addLog("=== Testing Credentials ===");
+    try {
+      addLog("Testing Source Account...");
+      const sourceToken = await authenticate(source.apiKey, source.clientId);
+      await validateUserAccess(source.apiKey, sourceToken, source.userId);
+      addLog(`[Success] Source Account Validated (User ID: ${source.userId})`);
+
+      addLog("Testing Target Account...");
+      const targetToken = await authenticate(target.apiKey, target.clientId);
+      await validateUserAccess(target.apiKey, targetToken, target.userId);
+      addLog(`[Success] Target Account Validated (User ID: ${target.userId})`);
+      
+    } catch (err: any) {
+      addLog(`[Error] Credentials check failed: ${err.message}`);
     } finally {
       setIsRunning(false);
     }
@@ -495,13 +530,22 @@ export default function Main() {
               )}
 
               {!previewItems && !isRunning && !hasResumeJob && (
-                <button
-                  onClick={analyzeCollection}
-                  disabled={!canStart}
-                  style={{ width: '100%', padding: '12px', fontSize: '18px', borderRadius: 0, marginTop: '10px' }}
-                >
-                  Analyze Collection
-                </button>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '10px' }}>
+                  <button
+                    onClick={testCredentials}
+                    disabled={!canStart}
+                    style={{ padding: '12px', fontSize: '18px', borderRadius: 0, backgroundColor: '#333333' }}
+                  >
+                    Test Credentials
+                  </button>
+                  <button
+                    onClick={analyzeCollection}
+                    disabled={!canStart}
+                    style={{ padding: '12px', fontSize: '18px', borderRadius: 0 }}
+                  >
+                    Analyze Collection
+                  </button>
+                </div>
               )}
 
               {previewItems && !isRunning && (
