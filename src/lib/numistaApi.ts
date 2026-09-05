@@ -14,6 +14,16 @@ export class NumistaRateLimitError extends Error {
   }
 }
 
+/** Max pages fetched per collection to protect the browser from freezing. */
+export const MAX_COLLECTION_PAGES = 100;
+
+export interface FetchCollectionResult {
+  items: any[];
+  /** True when the hard page cap was hit — collection may be incomplete. */
+  hitPageLimit: boolean;
+  pagesFetched: number;
+}
+
 export async function authenticate(apiKey: string, clientId: string): Promise<string> {
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
@@ -57,10 +67,15 @@ export async function validateUserAccess(apiKey: string, token: string, userId: 
   return true;
 }
 
-export async function fetchCollection(apiKey: string, token: string, userId: string): Promise<any[]> {
+export async function fetchCollection(
+  apiKey: string,
+  token: string,
+  userId: string
+): Promise<FetchCollectionResult> {
   let allItems: any[] = [];
   let page = 1;
   let hasMore = true;
+  let hitPageLimit = false;
 
   while (hasMore) {
     const response = await fetch(`${API_BASE}/users/${userId}/collected_items?page=${page}`, {
@@ -71,13 +86,17 @@ export async function fetchCollection(apiKey: string, token: string, userId: str
       },
     });
 
+    if (response.status === 429) {
+      throw new NumistaRateLimitError();
+    }
+
     if (!response.ok) {
       const errText = await response.text();
       throw new NumistaAPIError(`Failed to fetch collection on page ${page}: ${errText}`);
     }
 
     const data = await response.json();
-    let items = [];
+    let items: any[] = [];
     if (Array.isArray(data)) items = data;
     else if (data && Array.isArray(data.items)) items = data.items;
 
@@ -96,15 +115,20 @@ export async function fetchCollection(apiKey: string, token: string, userId: str
 
       allItems = allItems.concat(items);
       page++;
-      
-      // Hard cap at 100 pages to prevent browser freezing
-      if (page > 100) {
+
+      // Hard cap to prevent browser freezing — caller must surface this loudly
+      if (page > MAX_COLLECTION_PAGES) {
+        hitPageLimit = true;
         hasMore = false;
       }
     }
   }
 
-  return allItems;
+  return {
+    items: allItems,
+    hitPageLimit,
+    pagesFetched: Math.min(page, MAX_COLLECTION_PAGES),
+  };
 }
 
 export async function addItem(apiKey: string, token: string, userId: string, item: any): Promise<boolean> {
